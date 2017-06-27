@@ -20,6 +20,10 @@ type Props = {
    */
     onChange: (items: Array<any>) => void,
   /**
+   * A handler to be called when user types
+   */
+    onKeyPress: (string) => void,
+  /**
    * An array of tags
    */
     value: Array<any>,
@@ -88,6 +92,7 @@ const DEFAULT_TAG_REGEX = /(.+)/gi
 class TagInput extends Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
+    onKeyPress: PropTypes.func,
     value: PropTypes.array.isRequired,
     regex: PropTypes.object,
     tagColor: PropTypes.string,
@@ -112,6 +117,7 @@ class TagInput extends Component {
   scrollViewHeight: 0;
 
   static defaultProps = {
+    onKeyPress: () => { },
     tagColor: '#dddddd',
     tagTextColor: '#777777',
     inputColor: '#777777',
@@ -172,6 +178,7 @@ class TagInput extends Component {
       return;
 
     const text = event.nativeEvent.text;
+    this.props.onKeyPress(text);
     this.setState({ text: text });
     const lastTyped = text.charAt(text.length - 1);
 
